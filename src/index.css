@@ -13,3 +13,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+h1,
+h2 {
+  text-align: center;
+  padding: 35px;
+  margin: 0;
+}
+h2 {
+  padding-bottom: 0px;
+}
+
+div {
+  text-align: center;
+  padding-top: 50px;
+}
