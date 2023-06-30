@@ -1,20 +1,19 @@
 // import React, { Component } from 'react';
 import { useState } from 'react';
-
-// import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
 
-// const INITIAL_STATE = {
-//   name: '',
-//   number: '',
-// };
+const INITIAL_STATE = {
+  name: '',
+  number: '',
+};
 
 // class ContactForm extends Component {
 //   state = { ...INITIAL_STATE };
 
 const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [formValues, setFormValues] = useState(INITIAL_STATE);
+  // const [number, setNumber] = useState('');
 
   // state = { ...INITIAL_STATE };
   // const [contactState, setContactState] = useState(INITIAL_STATE);
@@ -28,8 +27,7 @@ const ContactForm = ({ onSubmit }) => {
   // };
   const handleChange = e => {
     const { name, value } = e.target;
-    setName({ [name]: value });
-    setNumber({ [number]: value });
+    setFormValues(prevValues => ({ ...prevValues, [name]: value }));
   };
   //  handleSubmit = e => {
   //   e.preventDefault();
@@ -39,19 +37,19 @@ const ContactForm = ({ onSubmit }) => {
   //  reset = () => {
   //   this.setState({ ...INITIAL_STATE });
   // };
-  // const reset = () => {
-  //   setContactState({ ...INITIAL_STATE });
-  // };
+
+  const reset = () => {
+    setFormValues(INITIAL_STATE);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ name, number });
-    setName('');
-    setNumber('');
+    onSubmit({ id: nanoid(), ...formValues });
+    reset();
   };
 
   // render() {
-  // const { name, number } = contactState;
+  const { name, number } = formValues;
   return (
     <form className={css.form} onSubmit={handleSubmit}>
       <label className={css.label}>
@@ -62,7 +60,7 @@ const ContactForm = ({ onSubmit }) => {
           name="name"
           value={name}
           onChange={handleChange}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          pattern="^[a-zA-Zа-яА-Я]+([' -]?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />
